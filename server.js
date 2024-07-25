@@ -22,6 +22,6 @@ app.use(routes);
 
 db.once('open', () => {
     app.listen(PORT, () => {
-      console.log(`SocialMediaAPI server running on port ${PORT}!`);
+      console.log(`SocialMediaAPI server running http://localhost:${PORT}/`);
     });
   });

@@ -5,7 +5,7 @@ router
     .route('/')
     .get(async (req, res) => {
         try {
-            const users = await User.find();
+            const users = await User.find({});
             res.json(users);
         }
         catch (err) {
