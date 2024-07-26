@@ -34,22 +34,22 @@ connection.once('open', async () => {
     const usersArr = await User.find();
     for (currentUser in usersArr) {
         const user = await User.findOne({ username: usersArr[currentUser].username });
-        let friendIndex = randomIndex(usersArr);
-        for (let i = 2; i <= usersArr.length - 1; i++) {
-            if (friendIndex === currentUser) {
-                while (friendIndex === currentUser) {
-                friendIndex = usersArr[randomIndex(usersArr)]
-                }
+        const currentUserId = usersArr[currentUser]._id.toString();
+        for (friend in usersArr) {
+            const friendId = usersArr[friend]._id.toString();
+            if (currentUserId === friendId) {
+                continue;
             }
-            const friendId = usersArr[friendIndex]._id.toString();
-            user.friends.push(friendId)
-            await user.save();
-        }
+            else {
+                user.friends.push(friendId);
+
+            }
+        };
+        await user.save();
     };
 
 
-
     console.log('success!\n');
-    console.timeEnd('seeding\n');
+    console.timeEnd('seeding');
     process.exit(0);
 });
