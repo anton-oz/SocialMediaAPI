@@ -60,10 +60,12 @@ router
     .delete(async (req, res) => {
         try {
             const deleteUser = await User.findByIdAndDelete(req.params.userId);
-            // delete associated thoughts if the user has any
+
+            // BONUS delete associated thoughts if the user has any
             if (deleteUser.thoughts.length > 0) {
                 await Thought.deleteMany({ username: deleteUser.username });
             };
+            
             res.json({
                 user_deleted: deleteUser
             });

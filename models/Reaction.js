@@ -1,10 +1,11 @@
-const { Schema, Types, model } = require('mongoose');
+const { Schema, Types } = require('mongoose');
 
 const reactionSchema = new Schema(
     {
         reactionId: {
             type: Schema.Types.ObjectId,
-            default: () => new Types.ObjectId(),
+            default: new Types.ObjectId(),
+            immutable: true,
         },
         reactionBody: {
             type: String,
@@ -19,8 +20,8 @@ const reactionSchema = new Schema(
             type: Date,
             default: Date.now,
             get: (date) => {
-                return date.toLocaleString();
-            },
+                return date ? date.toLocaleString() : '';
+            }
         },
     },
     {

@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { Thought, User } = require('../../models');
+const { Types } = require('mongoose');
 
 // /api/thoughts/
 router
@@ -19,7 +20,7 @@ router
             const newThought = await Thought.create(req.body);
             const user = await User.updateOne(
                 { username: req.body.username },
-                { $addToSet: { thoughts: newThought._id.toString() }},
+                { $addToSet: { thoughts: newThought._id/*.toString() */ }},
                 { new: true }
             );
             res.json(newThought);
@@ -71,6 +72,41 @@ router
             console.error(err);
             res.status(500).json(err);
         };
+    });
+
+// /api/thoughts/:thoughtId/reactions
+router  
+    .route('/:thoughtId/reactions')
+    .post(async (req, res) => {
+        try {
+            const addReaction = await Thought.updateOne(
+                { _id: req.params.thoughtId },
+                { $addToSet: { reactions: req.body }},
+                { new: true }
+            );
+            res.json(addReaction);
+        }
+        catch (err) {
+            console.error(err);
+            res.status(500).json(err);
+        };
     })
+
+    // Could not delete reaction by reactionId 
+
+    // .delete(async (req, res) => {
+    //     try {
+    //         const reactionId = createFromTime(req.body.reactionId); 
+    //         const deleteReaction = await Thought.updateOne(
+    //             { _id: req.params.thoughtId },
+    //             { $pull: { reactions: { reactionId } }}
+    //         );
+    //         res.json(deleteReaction);
+    //     }
+    //     catch (err) {
+    //         console.error(err);
+    //         res.status(500).json(err);
+    //     };
+    // })
 
 module.exports = router;

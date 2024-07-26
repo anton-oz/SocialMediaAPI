@@ -25,7 +25,7 @@ connection.once('open', async () => {
     const thoughtsArr = await Thought.find();
     for (thought in thoughtsArr) {
         const user = await User.findOne({ username: thoughtsArr[thought].username });
-        const idString = thoughtsArr[thought]._id.toString()
+        const idString = thoughtsArr[thought]._id//.toString()
         user.thoughts.push(idString);
         await user.save();
     };
@@ -34,9 +34,9 @@ connection.once('open', async () => {
     const usersArr = await User.find();
     for (currentUser in usersArr) {
         const user = await User.findOne({ username: usersArr[currentUser].username });
-        const currentUserId = usersArr[currentUser]._id.toString();
+        const currentUserId = usersArr[currentUser]._id //.toString();
         for (friend in usersArr) {
-            const friendId = usersArr[friend]._id.toString();
+            const friendId = usersArr[friend]._id//.toString();
             if (currentUserId === friendId) {
                 continue;
             }
